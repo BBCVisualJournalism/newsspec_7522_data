@@ -6,9 +6,9 @@ ini_set('memory_limit', '2000M');
 class HousingAffordability
 {
 	const GEOGRAPHY_SOURCE_FILE = '../sourcedata/uk50.json';
-	const JSON_DATA_FILE_TEST = '../uk50_v13.json';
-	const JS_DATA_FILE_TEST = '../uk50_v13.js';
-    const DATA_FILE_SOURCE = '../sourcedata/affordabilityaug2015_withnulls.csv';
+	const JSON_DATA_FILE_TEST = '../uk50_v15.json';
+	const JS_DATA_FILE_TEST = '../uk50_v15.js';
+    const DATA_FILE_SOURCE = '/Users/ashtoc03/Downloads/June2016affordabilityMay2016_withnulls.csv';
 
 	public function __construct() {
 		$this->compileDataFile();
@@ -34,7 +34,7 @@ class HousingAffordability
 		echo "... read data from csv file\n";
 		return @fopen($datafile, 'r');
 	}
-	
+
 	public function compileDataFile($geographySourceFile = self::GEOGRAPHY_SOURCE_FILE) {
 		try {
 			echo "... add data to topojson: $geographySourceFile\n";
@@ -58,7 +58,7 @@ class HousingAffordability
 			echo json_encode(array('error' => $e->getMessage()), true);
 		}
 	}
-	
+
 	public function getOwnershipByPropertyType() {
 		echo "... create properties data object\n";
 		$ownershipByPropertyTypeData = array();
@@ -69,7 +69,7 @@ class HousingAffordability
 		foreach($dataArray as $council) {
 			$councilCode = trim($council[1]);
 			$bedrooms = ((int) $council[4]) - 1;
-			
+
 			$ownershipByPropertyTypeData[$councilCode][$bedrooms] = array(
 					'lq' => array($this->cleanUpValue($council[11]), $this->cleanUpValue($council[5])),
 					'mq' => array($this->cleanUpValue($council[12]), $this->cleanUpValue($council[6])),
@@ -79,18 +79,18 @@ class HousingAffordability
 
 		return $ownershipByPropertyTypeData;
 	}
-	
+
 	public function cleanUpValue($str) {
 		if ((strpos(strtolower($str), "ull") > 0) || empty($str)) {
 			return "null";
 		}
-		
+
 // 		$str = preg_replace('/[£,?,å£]/', '', $str);
 		$str = preg_replace('/[^0-9]/', '', $str);
 // 		var_dump((float) $str); exit();
 		return (int) $str;
 	}
-	
+
 }
 
 $haff = new HousingAffordability();
