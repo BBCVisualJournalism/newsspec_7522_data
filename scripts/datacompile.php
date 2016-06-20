@@ -6,8 +6,8 @@ ini_set('memory_limit', '2000M');
 class HousingAffordability
 {
 	const GEOGRAPHY_SOURCE_FILE = '../sourcedata/uk50.json';
-	const JSON_DATA_FILE_TEST = '../uk50_v14.json';
-	const JS_DATA_FILE_TEST = '../uk50_v14.js';
+	const JSON_DATA_FILE_TEST = '../uk50_v15.json';
+	const JS_DATA_FILE_TEST = '../uk50_v15.js';
     const DATA_FILE_SOURCE = '/Users/ashtoc03/Downloads/June2016affordabilityMay2016_withnulls.csv';
 
 	public function __construct() {
